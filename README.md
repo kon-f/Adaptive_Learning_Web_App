@@ -1,9 +1,18 @@
 # Adaptive Learning Web App (Node.js + SQLite)
 
-A modern, full‑stack educational web application built with **Node.js**, **Express**, **SQLite**, and **vanilla JavaScript**, designed to demonstrate adaptive learning techniques, user progress tracking, personalized learning paths, and dynamic test generation.  
+## 📘 About the Project
 
-This project was originally created as part of an academic assignment and has been fully refactored for GitHub showcase purposes.  
-All domain‑specific educational content has been replaced with **generic placeholders**, ensuring the repository is safe and open-source friendly.
+A modern, full-stack educational web application built with **Node.js**, **Express**, **SQLite**, **JavaScript (ES6+)**, **HTML5**, and **Bootstrap**.
+The project demonstrates:
+
+- Adaptive learning logic (personalized learning paths)
+- Dynamic test generation with probability-based question selection
+- User progress tracking stored in a local SQLite database
+- Clean separation of backend routes and frontend static pages
+- Fully responsive UI using HTML5 + Bootstrap
+
+Originally created as part of an academic assignment, the project has been refactored and sanitized for public release.
+All domain-specific educational content has been replaced with neutral placeholder text, making the repository fully open-source friendly.
 
 ---
 

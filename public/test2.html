@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Τεστ Αυτοαξιολόγησης</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Τεστ Αυτοαξιολόγησης: Ενότητα 2</h1>
+
+        <!-- Q1 -->
+        <div class="mt-4">
+            <h5>1. Ποια είναι η κύρια αιτία ανέγερσης του  στην ;</h5>
+            <div>
+                <input type="radio" name="q1" value="Incorrect"> Η υποστήριξη της ρωμαϊκής κυριαρχίας<br>
+                <input type="radio" name="q1" value="Correct"> Η ανάγκη για τιμή μιας αποθάνουσας γυναίκας<br>
+                <input type="radio" name="q1" value="Incorrect"> Η δημιουργία πολιτιστικού κέντρου<br>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="mt-4">
+            <h5>2. Η  τιμήθηκε με επίγραμμα μέσα στο .</h5>
+            <div>
+                <input type="radio" name="q2" value="Correct"> Σωστό<br>
+                <input type="radio" name="q2" value="Incorrect"> Λάθος<br>
+            </div>
+        </div>
+
+        <!-- Q3a-b-->
+        <div class="mt-4">
+            <h5>3. Αντιστοιχίστε τα παρακάτω με τις σωστές απαντήσεις.</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Ο τάφος της  βρέθηκε:</p>
+                    <select id="q3a">
+                        <option value="default">Επιλογή</option>
+                        <option value="Incorrect">Συλημένος</option>
+                        <option value="Correct">Ασύλητος</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <p>...:</p>
+                    <select id="q3b">
+                        <option value="default">Επιλογή</option>
+                        <option value="Correct">Χριστιανικός Ναός</option>
+                        <option value="Incorrect">Ρωμαϊκό Φρούριο</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-4" onclick="submitTest()">Υποβολή</button>
+        <div id="result" class="mt-4"></div>
+        <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+    </div>
+
+    <script>
+        function submitTest() {
+            let answers = {
+                userId: localStorage.getItem('userId'), 
+                q1: document.querySelector('input[name="q1"]:checked') ? document.querySelector('input[name="q1"]:checked').value : null,
+                q2: document.querySelector('input[name="q2"]:checked') ? document.querySelector('input[name="q2"]:checked').value : null,
+                q3a: document.getElementById("q3a").value,
+                q3b: document.getElementById("q3b").value,
+                testId: 2
+            };
+    
+            // Send results to server
+            fetch('/api/submit-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers) // Sending results
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display result
+                document.getElementById("result").innerHTML = `<h4>${data.message}</h4>`;
+    
+                // Calculate user's level
+                return fetch('/api/calculate-level', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: localStorage.getItem('userId'),
+                        unitId: 3 // user level for unit 3
+                    })
+                });
+            })
+            .then(response => response.json())
+            .then(levelData => {
+                console.log('User level updated:', levelData);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

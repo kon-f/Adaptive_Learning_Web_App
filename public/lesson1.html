@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Ιστορικό Πλαίσιο Ανέγερσης</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>1. Ιστορικό Πλαίσιο Ανέγερσης</h1>
+        <div id="content-beginner">
+            <p>Τα γεγονότα που οδήγησαν στην ανέγερση του και η αρχαία ιστορία.</p>
+            <p><embed src="files\paths-of-culture.pdf" width="600" height="500" type="application/pdf"></p>
+            <p><a href="files\paths-of-culture.pdf  " target="_blank">Άνοιξέ το σε νέο παράθυρο</a>        </p>
+            <p>
+                Lorem ipsum placeholder text...
+            </p>
+
+            <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+        </div>       
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6 text-center">
+            <figure>
+                <figcaption>Κάστρο (περ. 1885) - Αρχείο .../... Μουσείο</figcaption>
+                <img src="images/OldKastro.jpg" alt="(περ.1885)" class="img-fluid rounded" style="max-width: 600px;">
+            </figure>
+        </div>
+        <div class="col-md-6 text-center">
+            <figure>
+                <figcaption>Κάστρο Σήμερα</figcaption>
+                <img src="images/KastroNow.jpg" alt="Σήμερα" class="img-fluid rounded" style="max-width: 600px;">               
+            </figure>
+        </div>
+    </div>
+    
+    <script>
+        const userId = localStorage.getItem('userId'); 
+        const moduleId = 1; // The id of current unit
+    
+        // Increment visits counter in Unit 1 when user accesses it
+        fetch('/api/module-visit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: userId, module_id: moduleId })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data.message))
+        .catch(error => console.error('Error:', error));
+
+ 
+        //Function to handle logout
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+    </script>
+    
+</body>
+</html>

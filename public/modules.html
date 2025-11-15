@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ενότητες</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .btn.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar that will be displayed in all pages -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Εκπαιδευτικές Ενότητες</h1>
+        <div id="modules-list" class="row mt-4">
+            <!-- Units will appear here -->
+        </div>
+
+        <!-- We add an image below the units -->
+        <div class="row mt-5">
+            <div class="col text-center">
+                <img src="images/Full.jpg" alt="..." class="img-fluid rounded" style="max-width: 600px;">
+                <!-- img-fluid ensures the image scales properly, and max-width limits the size -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+        // Load data from API
+        fetch(`/api/modules?userId=${userId}`) // Send userId to API
+            .then(response => response.json())
+            .then(data => {
+                const modulesList = document.getElementById('modules-list');
+
+                data.forEach(module => {
+                    const moduleDiv = document.createElement('div');
+                    moduleDiv.className = 'col-md-6 col-lg-4'; // Responsive grid
+
+                    // If unit is locked, add the class disabled
+                    const disabledClass = module.unlocked ? '' : 'disabled';
+                    
+                    //If it's unit 4, then we need to change the appearance of the buttons/text since it's the review test
+                    if(module.id == 4) {
+                        moduleDiv.innerHTML = `
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Επαναληπτικό Τεστ</h5>
+                                    <p class="card-text">${module.description}</p>
+                                    <a href="/reviewtest.html" class="btn btn-success ${disabledClass}">Έναρξη Επαναληπτικού Τεστ</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    //Otherwise show units similarly
+                    else {
+                        moduleDiv.innerHTML = `
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">${module.title}</h5>
+                                    <p class="card-text">${module.description}</p>
+                                    <a href="/lesson${module.id}.html" class="btn btn-primary ${disabledClass}">Έναρξη Μαθήματος</a>
+                                    <a href="/test${module.id}.html" class="btn btn-secondary ${disabledClass}">Τεστ Αυτοαξιολόγησης</a>
+                                </div>
+                            </div>
+                        `;
+                        }
+                    modulesList.appendChild(moduleDiv);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+           
+        function logout() {
+            // Delete userId from localStorage
+            localStorage.removeItem('userId');
+            // Redirect to starting page (index.html)
+            window.location.href = '/index.html';
+        }     
+    </script>
+</body>
+</html>

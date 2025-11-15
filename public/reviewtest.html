@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Επαναληπτικό Τεστ</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Here we will dynamically load the questions -->
+    <div class="container mt-5">
+        <h1 class="mb-4">Επαναληπτικό Τεστ</h1>
+        <form id="review-test-form">
+            <div id="questions-container"></div>
+            <button type="submit" class="btn btn-primary mt-3">Υποβολή</button>
+        </form>
+        <div id="result"></div> <!-- Here we will display results after answer submission -->
+        <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+    </div>
+
+    
+
+    <script>
+        // Retrieve userId from localStorage
+        const userId = localStorage.getItem('userId');
+
+        // Call API to retrieve review test questions from DB
+        function loadReviewTestQuestions() {
+            fetch(`/review-test/get-review-test-questions?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const questionsContainer = document.getElementById('questions-container');
+                    questionsContainer.innerHTML = ''; // Makes sure is empty
+
+                    // Dynamically create appropriate html elements depending on each question and display them
+                    data.questions.forEach((question, index) => {
+                        let questionHTML = `
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Ερώτηση ${index + 1}: ${question.question_text}</h5>
+                                    <input type="hidden" name="question_id_${index}" value="${question.id}">
+                        `;
+
+                        // Find what type of question is to diplay accordingly
+                        if (question.question_type === 'multiple_choice') {
+                            try {
+                                const options = JSON.parse(question.answer_options);
+                                if (Array.isArray(options)) {
+                                    questionHTML += '<ul class="list-group">';
+                                    options.forEach(option => {
+                                        questionHTML += `
+                                            <li class="list-group-item">
+                                                <input type="radio" name="answer_${question.id}" value="${option}">
+                                                ${option}
+                                            </li>
+                                        `;
+                                    });
+                                    questionHTML += '</ul>';
+                                } else {
+                                    console.error('Invalid answer options format', options);
+                                }
+                            } catch (e) {
+                                console.error('Error parsing answer options:', e);
+                            }
+                        } else if (question.question_type === 'true_false') {
+                            questionHTML += `
+                                <div>
+                                    <label>
+                                        <input type="radio" name="answer_${question.id}" value="true"> Σωστό
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="answer_${question.id}" value="false"> Λάθος
+                                    </label>
+                                </div>
+                            `;
+                        } else if (question.question_type === 'matching') {
+                            try {
+                                const answerOptions = JSON.parse(question.answer_options);
+                                questionHTML += '<div class="matching-container">';
+                                const keys = Object.keys(answerOptions);
+
+                                keys.forEach(key => {
+                                    questionHTML += `
+                                        <div class="matching-pair">
+                                            <label>${key}</label>
+                                            <select name="answer_${question.id}_${key}">
+                                                <option value="">Επιλέξτε...</option>
+                                    `;
+                                    Object.keys(answerOptions).forEach(matchKey => {
+                                        questionHTML += `<option value="${matchKey}">${answerOptions[matchKey]}</option>`;
+                                    });
+                                    questionHTML += `</select></div>`;
+                                });
+
+                                questionHTML += '</div>';
+                            } catch (e) {
+                                console.error('Error parsing answer options for matching:', e);
+                            }
+                        }
+
+                        questionHTML += '</div>'; // Close card-body
+                        questionHTML += '</div>'; // Close card
+                        questionsContainer.innerHTML += questionHTML;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching questions:', error);
+                    // Error message towards user in case of error
+                    document.getElementById('questions-container').innerHTML = '<p>Παρουσιάστηκε σφάλμα κατά τη φόρτωση των ερωτήσεων. Παρακαλώ δοκιμάστε ξανά αργότερα.</p>';
+                });
+        }
+
+        // Call the function when loading the page to display the questions
+        loadReviewTestQuestions();
+
+        // Submit the test
+        function submitTest(event) {
+            event.preventDefault();  // Page refressed after submitting for some reason. Apparently submit's default behaviour
+
+            const formData = new FormData(document.querySelector('form'));
+
+            let answers = {
+                userId: localStorage.getItem('userId'),
+                testId: 4,
+                responses: []
+            };
+
+            formData.forEach((value, key) => {
+                // Here we save each question's answer and question id so we can find it's correct answer in the db to compare with user's answer
+                if (key.startsWith("answer_")) {
+                    const questionId = key.split('_')[1];
+                    answers.responses.push({ questionId: questionId, answer: value });
+               }
+            });
+
+            // Send answers to server
+            fetch('/review-test/submit-review-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display results to user
+                document.getElementById("result").innerHTML = `<h4>${data.message}</h4>`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event listener for the submission of the form
+        document.getElementById('review-test-form').addEventListener('submit', submitTest);
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

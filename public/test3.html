@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Τεστ Αυτοαξιολόγησης</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για  </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Τεστ Αυτοαξιολόγησης: Ενότητα 3</h1>
+
+        <!-- Q1 -->
+        <div class="mt-4">
+            <h5>1. Η προσπάθεια των  να διασώσουν την πολιτιστική τους κληρονομία ήταν εύκολη;</h5>
+            <div>
+                <input type="radio" name="q1" value="Incorrect"> Σωστό<br>
+                <input type="radio" name="q1" value="Correct"> Λάθος<br>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="mt-4">
+            <h5>2. Το μνημείο της  κινδύνευε να καταρεύσει;</h5>
+            <div>
+                <input type="radio" name="q2" value="Correct"> Σωστό<br>
+                <input type="radio" name="q2" value="Incorrect"> Λάθος<br>
+            </div>
+        </div>
+
+        <!-- Q3a-b -->
+        <div class="mt-4">
+            <h5>3. Αντιστοιχίστε τα παρακάτω με τις σωστές απαντήσεις.</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Η αναστήλωση του Ναού βραβεύθηκε από:</p>
+                    <select id="q3a">
+                        <option value="default">Επιλογή</option>
+                        <option value="Incorrect">Ελληνική Κυβέρνηση</option>
+                        <option value="Correct">Ευρώπη</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <p>Η  συνοδευόταν από:</p>
+                    <select id="q3b">
+                        <option value="default">Επιλογή</option>
+                        <option value="Correct">Χρυσά Κοσμήματα</option>
+                        <option value="Incorrect">Εργαλεία Ύφανσης</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-4" onclick="submitTest()">Υποβολή</button>
+        <div id="result" class="mt-4"></div>
+        <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+    </div>
+
+    <script>
+        function submitTest() {
+            let answers = {
+                userId: localStorage.getItem('userId'), 
+                q1: document.querySelector('input[name="q1"]:checked') ? document.querySelector('input[name="q1"]:checked').value : null,
+                q2: document.querySelector('input[name="q2"]:checked') ? document.querySelector('input[name="q2"]:checked').value : null,
+                q3a: document.getElementById("q3a").value,
+                q3b: document.getElementById("q3b").value,
+                testId: 3
+            };
+    
+            // Send user's results
+            fetch('/api/submit-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display result
+                document.getElementById("result").innerHTML = `<h4>${data.message}</h4>`;
+    
+                // Calculate user level
+                return fetch('/api/calculate-level', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: localStorage.getItem('userId'),
+                        unitId: 4 // Unit 4 is review test so this won't be needed but in case of more units being added to the course, we keep it here
+                    })
+                });
+            })
+            .then(response => response.json())
+            .then(levelData => {
+                console.log('User level updated:', levelData);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Πρόοδος Χρήστη</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Πρόοδος Χρήστη</h1>
+        <div id="visits-section" class="mt-4">
+            <h3>Επισκέψεις σε Ενότητες</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ενότητα</th>
+                        <th>Αριθμός Επισκέψεων</th>
+                    </tr>
+                </thead>
+                <tbody id="visits-table-body">
+                    <!-- Here we will dynamically display unit visits -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="answers-section" class="mt-5">
+            <h3>Απαντήσεις Τεστ</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ενότητα</th>
+                        <th>Σκορ</th>
+                        <th>Βαθμός</th>
+                    </tr>
+                </thead>
+                <tbody id="answers-table-body">
+                    <!-- Here we will dynamically display user's test results -->
+                </tbody>
+            </table>
+        </div>        
+        <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+        
+    </div>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            alert('Πρέπει να είστε συνδεδεμένος για να δείτε την πρόοδό σας.');
+            window.location.href = '/index.html';
+        }
+
+        // Load user's progress (fetch it)
+        fetch('/progress', {
+            method: 'POST',  // We use POST to send userId
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId }),  // sending userId
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok.");
+            }
+            return response.json();
+        })
+                    
+        .then(data => {
+            console.log('Progress Data:', data); // Display data in console for debugging purposesS
+            const visitsTableBody = document.getElementById('visits-table-body');
+            const answersTableBody = document.getElementById('answers-table-body');
+
+            // Display data for unit visits in html containers
+            data.visits.forEach(visit => {
+                const row = `<tr>
+                    <td>${visit.module_id}</td>
+                    <td>${visit.visit_count}</td>
+                </tr>`;
+                visitsTableBody.innerHTML += row;
+            });
+
+            // Display data for user's test results
+            data.answers.forEach(answer => {
+                let row;
+                if (answer.test_id == 4) {
+                    // If it's the review test, we simply show "Επαναληπτικό Τεστ" instead of specifi answers
+                    row = `<tr>
+                        <td>Review</td>
+                        <td>Επαναληπτικό Τεστ</td>
+                        <td>${answer.score}</td>
+                    </tr>`;
+                } else {
+                    // For the rest of the tests, display every questions result (Correct/Incorrect)
+                    row = `<tr>
+                        <td>${answer.test_id}</td>
+                        <td>Q1: ${answer.q1}, Q2: ${answer.q2}, Q3a: ${answer.q3a}, Q3b: ${answer.q3b}</td>
+                        <td>${answer.score}</td>
+                    </tr>`;
+                }
+                answersTableBody.innerHTML += row;
+            });
+        })
+        .catch(error => console.error('Error loading user progress:', error));
+    </script>
+</body>
+</html>

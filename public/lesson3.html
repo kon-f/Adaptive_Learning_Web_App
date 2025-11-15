@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Πολιτιστική Κληρονομιά και Προκλήσεις Αναστήλωσης</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Εκπαιδευτικό Λογισμικό για την </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/modules.html">Ενότητες</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/progress.html">Πρόοδος</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Αποσύνδεση</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>3. Πολιτιστική Κληρονομιά και Προκλήσεις Αναστήλωσης</h1>
+        
+        <div id="content-beginner">
+            <p>Lorem ipsum placeholder text...</p>
+            <div class="col-md-6 text-center">
+                <figure>                   
+                    <img src="images/N.jpg" alt="Ν" class="img-fluid rounded" style="max-width: 600px;">
+                    <figcaption>Η ασύλητη εγκιβωτισμένη ταφή της με όλα τα χρυσά κοσμήματα που την στόλιζαν, τα υποδήματα και τα υφάσματά της</figcaption>
+                </figure>
+            </div>
+            <p>Lorem ipsum placeholder text...</p>
+            <div class="col-md-6 text-center">
+                <figure>
+                    <figcaption> κατά τα εγκαίνια</figcaption>
+                    <img src="images/President.jpg" alt="Εγκαίνια" class="img-fluid rounded" style="max-width: 600px;">       
+                </figure>
+            </div>
+        </div>
+        <div id="content-intermediate" style="display: none;">
+            <h6>Επιπλέον υλικό</h6>
+            <p>Lorem ipsum placeholder text...</p>
+        </div>
+        
+        <div id="content-advanced" style="display: none;">
+            <h4>Επιπλέον υλικό για προχωρημένους</h4>
+            <p>Lorem ipsum placeholder text...</p>
+        </div>
+              
+        <div>
+            <a href="/modules.html" class="btn btn-secondary mt-3">Πίσω στις Ενότητες</a>
+        </div>
+    </div>
+    <script>
+        const userId = localStorage.getItem('userId'); 
+        const moduleId = 3; // The id of current unit
+    
+        fetch(`/api/user-level?userId=${userId}&unitId=${moduleId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Debugging
+    
+                const level = data.current_level;
+    
+                // Display the corresponding material. Beginner basically appears always
+                if (level === 'beginner') {
+                    document.getElementById('content-beginner').style.display = 'block';
+                } else if (level === 'intermediate') {
+                    document.getElementById('content-beginner').style.display = 'block';
+                    document.getElementById('content-intermediate').style.display = 'block';
+                } else if (level === 'advanced') {
+                    document.getElementById('content-beginner').style.display = 'block';
+                    document.getElementById('content-intermediate').style.display = 'block';
+                    document.getElementById('content-advanced').style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error:', error));   
+    
+        // Increment visits count
+        fetch('/api/module-visit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: userId, module_id: moduleId })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data.message))
+        .catch(error => console.error('Error:', error));
+    
+        function logout() {
+            localStorage.removeItem('userId');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

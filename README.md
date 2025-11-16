@@ -4,7 +4,7 @@
 ![EJS](https://img.shields.io/badge/EJS-3.x-yellow)
 ![bcrypt](https://img.shields.io/badge/bcrypt-5.x-orange)
 ![SQLite3](https://img.shields.io/badge/SQLite3-5.x-003B57?logo=sqlite&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-Important-E34F26?logo=html5&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
 ![nodemon](https://img.shields.io/badge/nodemon-3.x-brightgreen)

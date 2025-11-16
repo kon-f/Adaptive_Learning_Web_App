@@ -1,4 +1,14 @@
 # Adaptive Learning Web App (Node.js + SQLite)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-green?logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-4.x-blue)
+![EJS](https://img.shields.io/badge/EJS-3.x-yellow)
+![bcrypt](https://img.shields.io/badge/bcrypt-5.x-orange)
+![SQLite3](https://img.shields.io/badge/SQLite3-5.x-003B57?logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
+![nodemon](https://img.shields.io/badge/nodemon-3.x-brightgreen)
+![npm](https://img.shields.io/badge/npm-9%2B-CB3837?logo=npm&logoColor=white)
+![License: ISC](https://img.shields.io/badge/License-ISC-lightgrey)
 
 ## 📘 About the Project
 

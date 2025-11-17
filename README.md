@@ -132,7 +132,7 @@ project/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/your-repo-name.git](https://github.com/kon-f/Adaptive_Learning_Web_App.git
+git clone https://github.com/kon-f/Adaptive_Learning_Web_App.git
 cd your-repo-name
 ```
 

@@ -122,6 +122,7 @@ project/
 ├── README.md             # You are here
 ├── package.json
 ├── package-lock.json
+├── screenshots/
 └── .gitignore
 # node_modules/ (generated automatically, ignored)
 ```
@@ -200,9 +201,54 @@ These influence the content displayed in the next module.
 ## 📸 Screenshots
 
 ```
-/public/screenshots/
+## 📸 Screenshots (Gallery)
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Login Page</strong></p>
+    <img src="screenshots/1_index.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Units Overview</strong></p>
+    <img src="screenshots/2_units.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Lesson with YouTube Embed</strong></p>
+    <img src="screenshots/4_yt_embed.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Unit Test – Before Submit</strong></p>
+    <img src="screenshots/5_Unit_test.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Unit Test – After Submit</strong></p>
+    <img src="screenshots/6_Unit_test_sumbitted.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>User Progress Dashboard</strong></p>
+    <img src="screenshots/7_progress.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Review Test – Dynamic Questions</strong></p>
+    <img src="screenshots/8_ReviewTest.png" width="100%">
+  </div>
+
+  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
+    <p><strong>Adaptive Learning Paths – Advanced Content</strong></p>
+    <img src="screenshots/9_LearningPaths.png" width="100%">
+  </div>
+
+</div>
+
 ```
-(Screenshots coming soon)
+
 
 ---
 

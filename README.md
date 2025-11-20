@@ -200,55 +200,102 @@ These influence the content displayed in the next module.
 
 ## 📸 Screenshots
 
-```
-## 📸 Screenshots (Gallery)
+<div style="
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+">
 
-<div style="display: flex; flex-wrap: wrap; gap: 16px;">
-
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Login Page</strong></p>
-    <img src="screenshots/1_index.png" width="100%">
+  <!-- 1 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Login Page</p>
+    <img src="screenshots/1_index.png" alt="Login Page"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Units Overview</strong></p>
-    <img src="screenshots/2_units.png" width="100%">
+  <!-- 2 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Units Overview</p>
+    <img src="screenshots/2_units.png" alt="Units Overview"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Lesson with YouTube Embed</strong></p>
-    <img src="screenshots/4_yt_embed.png" width="100%">
+  <!-- 3 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Lesson with YouTube Embed</p>
+    <img src="screenshots/4_yt_embed.png" alt="Lesson with YouTube"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Unit Test – Before Submit</strong></p>
-    <img src="screenshots/5_Unit_test.png" width="100%">
+  <!-- 4 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Unit Test – Before Submit</p>
+    <img src="screenshots/5_Unit_test.png" alt="Unit Test Before"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Unit Test – After Submit</strong></p>
-    <img src="screenshots/6_Unit_test_sumbitted.png" width="100%">
+  <!-- 5 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Unit Test – After Submit</p>
+    <img src="screenshots/6_Unit_test_sumbitted.png" alt="Unit Test After"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>User Progress Dashboard</strong></p>
-    <img src="screenshots/7_progress.png" width="100%">
+  <!-- 6 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">User Progress Dashboard</p>
+    <img src="screenshots/7_progress.png" alt="User Progress"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Review Test – Dynamic Questions</strong></p>
-    <img src="screenshots/8_ReviewTest.png" width="100%">
+  <!-- 7 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Review Test (Dynamic Questions)</p>
+    <img src="screenshots/8_ReviewTest.png" alt="Review Test"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
-  <div style="flex: 1 1 calc(50% - 16px); min-width: 300px;">
-    <p><strong>Adaptive Learning Paths – Advanced Content</strong></p>
-    <img src="screenshots/9_LearningPaths.png" width="100%">
+  <!-- 8 -->
+  <div style="
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
+    max-width: 420px;
+  ">
+    <p style="text-align:center; font-weight:600;">Adaptive Learning – Advanced Material</p>
+    <img src="screenshots/9_LearningPaths.png" alt="Adaptive Content"
+         style="width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:0.2s;">
   </div>
 
 </div>
-
-```
-
 
 ---
 
